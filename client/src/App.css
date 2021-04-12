@@ -1,3 +1,29 @@
 .App {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+}
+
+.searchBar {
+  display: flex;
+  background-color:lightgrey;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  height: 200px;
+  width: 50%;
+}
+
+.searchBar button{
+  width: 200px; 
+  margin-top: 3rem;
+  height: 40px;
+}
+
+.searchBar button:hover{
+  cursor: pointer;
+  color: lightblue;
 }
