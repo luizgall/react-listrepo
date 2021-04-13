@@ -1,12 +1,12 @@
 import React from 'react';
-import axios from 'axios';
-
+import { ApiService }  from '../../services/ApiService';
 export default class SearchBar extends React.Component {
 
   state = {
     repos: [],
     userName: ""
   }
+
 
   constructor(props) {
     super(props);
@@ -26,14 +26,11 @@ export default class SearchBar extends React.Component {
   }
 
   
-
   searchRepo (){
     if(this.state.userName){
-      axios.get(`http://localhost:3001/search?user=${this.state.userName}`)
-      .then(res => {
-        const repos = res.data.repos;
-
-        this.setState({repos: repos});
+      let promise = ApiService.searchUser(this.state.userName);
+      promise.then((res) => {
+        this.setState({repos: res.data.repos});
       })
     }
   }
