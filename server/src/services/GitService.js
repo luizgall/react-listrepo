@@ -15,8 +15,8 @@ const parseData = (data) => {
             repo.name = elem.name;
             repo.url = elem.html_url;
             repo.description = elem.description;
-            repo.creationDate = elem.created_at;
-            repo.lastUpdate = elem.updated_at;
+            repo.creationDate = convertDate(elem.created_at);
+            repo.lastUpdate = convertDate(elem.updated_at);
             repo.cloneUrl = elem.clone_url;
             repo.sshUrl = elem.ssh_url;
             repo.language = elem.language;
@@ -27,6 +27,13 @@ const parseData = (data) => {
     
     return obj; 
 }
+
+const convertDate = (inputFormat) => {
+    function pad(s) { return (s < 10) ? '0' + s : s; }
+    var d = new Date(inputFormat)
+    return [pad(d.getDate()), pad(d.getMonth()+1), d.getFullYear()].join('/')
+}
+  
 
 const gitService = {
     getRepos: async (user) =>{
