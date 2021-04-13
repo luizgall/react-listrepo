@@ -25,8 +25,7 @@ const parseData = (data) => {
 }
 
 const gitService = {
-    getRepos: async () =>{
-        let user = 'luizgall';
+    getRepos: async (user) =>{
         let options = {
             headers: {
                 'User-Agent': 'request'

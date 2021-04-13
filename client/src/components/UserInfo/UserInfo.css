@@ -1,0 +1,33 @@
+
+.user-info {
+  height: 200px;
+  width: 70%;
+  align-self: center;
+  margin-top: 2rem;
+  margin-bottom: 4rem;
+}
+
+.user-info a {
+  text-decoration: underline;
+  color: lightblue;
+  cursor: pointer;
+}
+
+.user-info b {
+  font-weight:bold;
+}
+
+.user-info div {
+  display:flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+} 
+
+.user-info img {
+  height: 100%;
+  align-self:center;
+}
+
+.user-info span{
+  font-family: Helvetica;
+}
