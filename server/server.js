@@ -1,10 +1,12 @@
 const express = require('express');
 const app = express();
 const router = express.Router();
+const cors = require('cors');
 
 const index = require('./src/routes/index.js');
 const gitUserRoute = require('./src/routes/gitUserRoute');
 
+app.use(cors());
 app.use('/', index);
 app.use('/search', gitUserRoute);
 
