@@ -4,19 +4,21 @@ import './Search.css';
 
 export default class SearchBar extends React.Component {
 
-  state = {
-    userName: ""
-  }
-
+  user = "";
   handleSubmit = (event) => {
     event.preventDefault();
     this.searchRepo();
     
   }
 
+  handleChange = (event) => {
+    this.user = event.target.value;
+  }
+
   
   searchRepo = () => {
-    let user=  "luizgall";
+    this.props.startedSearch();
+    let user= this.user;
     if(user){
       let promise = ApiService.searchUser(user);
       promise.then((res) => {
@@ -30,7 +32,7 @@ export default class SearchBar extends React.Component {
   render() {
     return (
     <form className="searchBar" onSubmit={this.handleSubmit}>
-      <input type="text" />
+      <input type="text" onChange = {this.handleChange}/>
       <button type = "submit" >Search</button>
     </form>
     );

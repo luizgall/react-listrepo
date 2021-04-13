@@ -1,0 +1,25 @@
+.error-alert {
+    overflow:hidden;
+    max-height: 200px;
+    transition: max-height 0.5s;
+    height: 100px;
+    background-color: salmon;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.error-alert.hidden {
+  max-height: 0;
+  pointer-events: none;
+}
+
+.error-alert p {
+  align-self: center;
+  color: white;
+  font-family: Helvetica;
+  font-size: 25px;
+  vertical-align: middle;
+  width: 100%;
+  text-align:center;
+}

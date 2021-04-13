@@ -4,25 +4,55 @@ import React from 'react';
 import './App.css';
 import './reset.css';
 
+
+import ErrorAlert from './components/ErrorAlert/Error.js';
+
+import Repo from './components/Repo/Repo.js';
 import SearchBar from './components/Search/Search.js';
 import UserInfo from './components/UserInfo/UserInfo.js';
-import Repo from './components/Repo/Repo.js';
+
 
 
 class Container extends React.Component {
   state = {
     hideUser: true,
+    hideError: true,
     info: {
 
     },
     repos: []
   };
   updateList = (data) => {
+    if (data.repos && data.repos.length > 0){
+      this.setState(
+        {
+          info: data,
+          hideUser: false,
+          hideError: true,
+          repos: data.repos
+        }
+      );
+    }
+    else {
+      this.setState(
+        {
+          info: {},
+          hideUser: true,
+          hideError: false,
+          repos: []
+        }
+      );
+    }
+    
+  }
+
+  startedSearch = () => {
     this.setState(
       {
-        info: data,
-        hideUser: false,
-        repos: data.repos
+        info: {},
+        hideUser: true,
+        hideError: true,
+        repos: []
       }
     );
   }
@@ -37,7 +67,8 @@ class Container extends React.Component {
           width={100}
           className = "hightlight"
         /> */}
-          <SearchBar hideUser = { this.state.hideUser } updateList = { this.updateList }/>
+          <ErrorAlert hideError = { this.state.hideError } />
+          <SearchBar updateList = { this.updateList } startedSearch = { this.startedSearch }/>
           <UserInfo hideUser = { this.state.hideUser } info = { this.state.info }/>
           <Repo repos = { this.state.repos } />
       </div>
