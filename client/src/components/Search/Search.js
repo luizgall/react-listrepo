@@ -16,10 +16,10 @@ export default class SearchBar extends React.Component {
   }
 
   
-  searchRepo = () => {
-    this.props.startedSearch();
+  searchRepo = () => { 
     let user= this.user;
     if(user){
+      this.props.startedSearch();
       let promise = ApiService.searchUser(user);
       promise.then((res) => {
         this.setState({repos: res.data.repos});

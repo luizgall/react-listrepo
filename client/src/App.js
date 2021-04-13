@@ -1,4 +1,3 @@
-import Loader from "react-loader-spinner";
 import React from 'react';
 
 import './App.css';
@@ -6,7 +5,7 @@ import './reset.css';
 
 
 import ErrorAlert from './components/ErrorAlert/Error.js';
-
+import Loader from './components/Loader/Loader.js';
 import Repo from './components/Repo/Repo.js';
 import SearchBar from './components/Search/Search.js';
 import UserInfo from './components/UserInfo/UserInfo.js';
@@ -17,6 +16,7 @@ class Container extends React.Component {
   state = {
     hideUser: true,
     hideError: true,
+    hideLoader: true,
     info: {
 
     },
@@ -29,6 +29,7 @@ class Container extends React.Component {
           info: data,
           hideUser: false,
           hideError: true,
+          hideLoader: true,
           repos: data.repos
         }
       );
@@ -39,6 +40,7 @@ class Container extends React.Component {
           info: {},
           hideUser: true,
           hideError: false,
+          hideLoader: true,
           repos: []
         }
       );
@@ -52,6 +54,7 @@ class Container extends React.Component {
         info: {},
         hideUser: true,
         hideError: true,
+        hideLoader: false,
         repos: []
       }
     );
@@ -59,7 +62,7 @@ class Container extends React.Component {
   render() {
       return (
         <div className="App">
-          {/* <div class="overlay"></div>
+          {/* 
           <Loader
           type="Puff"
           color="#00BFFF"
@@ -67,6 +70,7 @@ class Container extends React.Component {
           width={100}
           className = "hightlight"
         /> */}
+          <Loader hideLoader = { this.state.hideLoader }/>
           <ErrorAlert hideError = { this.state.hideError } />
           <SearchBar updateList = { this.updateList } startedSearch = { this.startedSearch }/>
           <UserInfo hideUser = { this.state.hideUser } info = { this.state.info }/>
