@@ -7,8 +7,7 @@ const index = require('./src/routes/index.js');
 const gitUserRoute = require('./src/routes/gitUserRoute');
 
 app.use(cors());
-app.use('/', index);
-app.use('/search', gitUserRoute);
+app.use('/', gitUserRoute);
 
 
 const port =  '3001';

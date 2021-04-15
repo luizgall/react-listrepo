@@ -1,6 +1,26 @@
 const https = require("https");
+var fs = require('fs');
+var path = require('path');
 
-const parseData = (data) => {
+const convertDate = (inputFormat) => {
+    function pad(s) { return (s < 10) ? '0' + s : s; }
+    var d = new Date(inputFormat)
+    return [pad(d.getDate()), pad(d.getMonth()+1), d.getFullYear()].join('/')
+}
+
+const getGitToken = async () => {
+    return new Promise ((resolve) => {
+            const url = path.join(__dirname, '..', '..', 'token.txt');
+            fs.readFile(url, 'utf8', (err, data) => {
+                if (err) throw err;
+                console.log('OK: ');
+                console.log(data);
+                resolve(data);
+            });
+    });
+}
+
+const parseRepoData = (data) => {
     let json = JSON.parse(data);
     let obj = {};
     if(json.length > 0){
@@ -28,21 +48,94 @@ const parseData = (data) => {
     return obj; 
 }
 
-const convertDate = (inputFormat) => {
-    function pad(s) { return (s < 10) ? '0' + s : s; }
-    var d = new Date(inputFormat)
-    return [pad(d.getDate()), pad(d.getMonth()+1), d.getFullYear()].join('/')
+const updateStar =  (starRepo, userRepo) => {
+    userRepo.repos.forEach( (elem) => {
+        starRepo.repos.forEach( (star) => {
+            if (star.name ==  elem.name) {
+                elem.starred = true;
+            } else {
+                elem.starred = false;
+            }
+        }); 
+    });
+
+    return userRepo;
+
 }
   
 
 const gitService = {
     getRepos: async (user) =>{
+        const token = await getGitToken();
+        const auth = "Bearer " + token;
+        let options = {
+            headers: {
+                'User-Agent': 'request',
+                'Authorization': auth
+            }
+        }
+        let url = `https://api.github.com/users/${user}/repos`;
+        return new Promise ((resolve) => {
+            https.get(url, options, (resp) => {        
+            let data = '';
+            if (resp.statusCode < 200 || resp.statusCode > 299) { 
+                resp.on("data", () => { } ); 
+                resolve({});
+            }
+            else {
+                resp.on('data', (chunk) => {
+                    data += chunk;
+                });
+    
+                resp.on('end', () => {
+                    resolve(parseRepoData(data));
+                });
+    
+            }
+            });
+        });
+    
+    },
+
+    getStarRepos: async (userRepo) =>{
+        const token = await getGitToken();
+        const auth = "Bearer " + token;
+        let options = {
+            headers: {
+                'User-Agent': 'request',
+                'Authorization': auth
+            }
+        }
+        let url = `https://api.github.com/user/starred`;
+        return new Promise ((resolve) => {
+            https.get(url, options, (resp) => {        
+            let data = '';
+            if (resp.statusCode < 200 || resp.statusCode > 299) { 
+                resp.on("data", () => { } ); 
+                resolve({});
+            }
+            else {
+                resp.on('data', (chunk) => {
+                    data += chunk;
+                });
+    
+                resp.on('end', () => {
+                    data = updateStar(parseRepoData(data), userRepo);
+                    resolve(data);
+                });
+            }
+            });
+        });
+    
+    },
+
+    starRepo: async (user) =>{
         let options = {
             headers: {
                 'User-Agent': 'request'
             }
         }
-        let url = `https://api.github.com/users/${user}/repos`;
+        let url = `https://api.github.com/user/starred/octocat/hello-world`;
         return new Promise ((resolve) => {
             https.get(url, options, (resp) => {        
             let data = '';
@@ -64,6 +157,7 @@ const gitService = {
         });
     
     }
+
 }
 
 module.exports = gitService;
