@@ -1,10 +1,11 @@
 const https = require("https");
-var fs = require('fs');
-var path = require('path');
+const request = require('request');
+const fs = require('fs');
+const path = require('path');
 
 const convertDate = (inputFormat) => {
     function pad(s) { return (s < 10) ? '0' + s : s; }
-    var d = new Date(inputFormat)
+    let d = new Date(inputFormat)
     return [pad(d.getDate()), pad(d.getMonth()+1), d.getFullYear()].join('/')
 }
 
@@ -13,8 +14,6 @@ const getGitToken = async () => {
             const url = path.join(__dirname, '..', '..', 'token.txt');
             fs.readFile(url, 'utf8', (err, data) => {
                 if (err) throw err;
-                console.log('OK: ');
-                console.log(data);
                 resolve(data);
             });
     });
@@ -129,31 +128,38 @@ const gitService = {
     
     },
 
-    starRepo: async (user) =>{
+    starRepo: async (owner, repoName) =>{
+        const token = await getGitToken();
+        const auth = "Bearer " + token;
+        let url = `https://api.github.com/user/starred/{owner}/{repoName}`;
         let options = {
+            hostname: 'api.github.com',
+            port: 443,
+            path: `/user/starred/${owner}/${repoName}`,
             headers: {
-                'User-Agent': 'request'
-            }
+                'User-Agent': 'request',
+                'Content-Type': 'application/json',
+                'Content-Length': 0,
+                'Authorization': auth
+            },
+            method: 'PUT'
         }
-        let url = `https://api.github.com/user/starred/octocat/hello-world`;
+       
         return new Promise ((resolve) => {
-            https.get(url, options, (resp) => {        
-            let data = '';
-            if (resp.statusCode < 200 || resp.statusCode > 299) { 
-                resp.on("data", () => { } ); 
-                resolve({});
-            }
-            else {
+            const req  = https.request(options, (resp) => {    
                 resp.on('data', (chunk) => {
-                    data += chunk;
+                    process.stdout.write(chunk);
                 });
     
                 resp.on('end', () => {
-                    resolve(parseData(data));
+                    resolve({});
                 });
-    
-            }
             });
+            req.on('error', error => {
+                resolve(error);
+            });
+
+            req.end();
         });
     
     }

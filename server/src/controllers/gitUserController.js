@@ -2,7 +2,7 @@ const gitService = require("../services/gitService");
 
 
 
-exports.getRepos = async (req, res, next) => {
+exports.getRepos = async (req, res) => {
     try {
         let resposta = await gitService.getRepos(req.query.user);
         resposta = await gitService.getStarRepos(resposta);
@@ -12,4 +12,14 @@ exports.getRepos = async (req, res, next) => {
         throw new Error(err.message)
     }
     
+};
+
+exports.putStar = async (req, res) => {
+    try {
+        let resposta = await gitService.starRepo(req.body.owner, req.body.repoName);
+        res.status(200).send(resposta);
+    }
+    catch (err) {
+        throw new Error(err.message)
+    }  
 };

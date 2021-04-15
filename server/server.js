@@ -7,6 +7,7 @@ const index = require('./src/routes/index.js');
 const gitUserRoute = require('./src/routes/gitUserRoute');
 
 app.use(cors());
+app.use(express.json());
 app.use('/', gitUserRoute);
 
 
