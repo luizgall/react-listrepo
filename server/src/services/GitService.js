@@ -128,10 +128,12 @@ const gitService = {
     
     },
 
-    starRepo: async (owner, repoName) =>{
+    starRepo: async (owner, repoName, del) =>{
         const token = await getGitToken();
         const auth = "Bearer " + token;
-        let url = `https://api.github.com/user/starred/{owner}/{repoName}`;
+        let method = del ? 'DELETE' : 'PUT';
+
+        console.log(del);
         let options = {
             hostname: 'api.github.com',
             port: 443,
@@ -142,7 +144,7 @@ const gitService = {
                 'Content-Length': 0,
                 'Authorization': auth
             },
-            method: 'PUT'
+            method: method
         }
        
         return new Promise ((resolve) => {
