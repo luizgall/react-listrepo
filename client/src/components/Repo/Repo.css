@@ -20,6 +20,13 @@
   font-size: 20px;
   text-align: left;
   width: 100%;
+  padding: 5px 0;
+
+}
+
+.repo li h1:hover {
+  cursor: pointer;
+
 }
 
 .repo li p {

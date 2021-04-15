@@ -6,8 +6,8 @@ export default class ErrorAlert extends React.Component {
   render() {
     return (
       <div className = { this.props.hideLoader ? 'hidden' : ''}>
-        <div class="overlay"></div>
-        <div class="loader"></div>
+        <div className="overlay"></div>
+        <div className="loader"></div>
       </div>
     );
   }

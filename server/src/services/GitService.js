@@ -31,6 +31,7 @@ const parseRepoData = (data) => {
     
         json.forEach(elem => {
             let repo = {};
+            repo.key = elem.name;
             repo.name = elem.name;
             repo.url = elem.html_url;
             repo.description = elem.description;
@@ -48,16 +49,17 @@ const parseRepoData = (data) => {
 }
 
 const updateStar =  (starRepo, userRepo) => {
-    userRepo.repos.forEach( (elem) => {
-        starRepo.repos.forEach( (star) => {
-            if (star.name ==  elem.name) {
-                elem.starred = true;
-            } else {
-                elem.starred = false;
-            }
-        }); 
-    });
-
+    if (userRepo.repos && starRepo.repos) {
+        userRepo.repos.forEach( (elem) => {
+            starRepo.repos.forEach( (star) => {
+                if (star.name ==  elem.name) {
+                    elem.starred = true;
+                } else if (!elem.starred){
+                    elem.starred = false;
+                }
+            }); 
+        });    
+    }
     return userRepo;
 
 }
@@ -119,6 +121,8 @@ const gitService = {
                 });
     
                 resp.on('end', () => {
+                    
+
                     data = updateStar(parseRepoData(data), userRepo);
                     resolve(data);
                 });
@@ -133,7 +137,6 @@ const gitService = {
         const auth = "Bearer " + token;
         let method = del ? 'DELETE' : 'PUT';
 
-        console.log(del);
         let options = {
             hostname: 'api.github.com',
             port: 443,
