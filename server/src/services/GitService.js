@@ -32,6 +32,7 @@ const parseRepoData = (data) => {
         json.forEach(elem => {
             let repo = {};
             repo.key = elem.name;
+            repo.owner = elem.owner.login;
             repo.name = elem.name;
             repo.url = elem.html_url;
             repo.description = elem.description;
@@ -136,7 +137,6 @@ const gitService = {
         const token = await getGitToken();
         const auth = "Bearer " + token;
         let method = del ? 'DELETE' : 'PUT';
-
         let options = {
             hostname: 'api.github.com',
             port: 443,

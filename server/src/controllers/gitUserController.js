@@ -16,8 +16,6 @@ exports.getRepos = async (req, res) => {
 
 exports.putStar = async (req, res) => {
     try {
-        console.log("recebi");
-        console.log(req.body);
         let resposta = await gitService.starRepo(req.body.owner, req.body.repoName, false);
         res.status(200).send(resposta);
     }

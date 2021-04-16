@@ -48,6 +48,22 @@ class Container extends React.Component {
     
   }
 
+  updateStar = (rep, star) => {
+    let array = this.state.repos;
+    console.log(rep, star);
+    array.forEach (elem => {
+      if (elem.name === rep){
+        console.log("match");
+        elem.starred = star;
+      }
+    });
+      this.setState({
+        repos: array
+      }
+    )
+    console.log(this.state)
+  }
+
   startedSearch = () => {
     this.setState(
       {
@@ -62,19 +78,11 @@ class Container extends React.Component {
   render() {
       return (
         <div className="App">
-          {/* 
-          <Loader
-          type="Puff"
-          color="#00BFFF"
-          height={100}
-          width={100}
-          className = "hightlight"
-        /> */}
           <Loader hideLoader = { this.state.hideLoader }/>
           <ErrorAlert hideError = { this.state.hideError } />
           <SearchBar updateList = { this.updateList } startedSearch = { this.startedSearch }/>
           <UserInfo hideUser = { this.state.hideUser } info = { this.state.info }/>
-          <Repo repos = { this.state.repos } />
+          <Repo repos = { this.state.repos } updateStar = { this.updateStar } />
       </div>
       );
   }

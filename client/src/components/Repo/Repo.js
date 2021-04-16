@@ -4,11 +4,21 @@ import { ApiService }  from '../../services/ApiService';
 import StarIcon from '../Icons/Star/Star.js'
 export default class SearchBar extends React.Component {
 
-  starClicked = () => {
-    let promise = ApiService.starRepo("internet-banking", "luizgall");
-      promise.then((res) => {
-        console.log("voltou");
-    })
+  starClicked = (repos) => {
+    if (!repos.starred) {
+        let promise = ApiService.starRepo(repos.name, repos.owner);
+        promise.then((res) => {
+          this.props.updateStar(repos.name, true);
+       });
+
+    }
+    else {
+      let promise = ApiService.deleteStar(repos.name, repos.owner);
+        promise.then((res) => {
+          repos.starred = false;
+          this.props.updateStar(repos.name, false);
+       });
+    }
   }
 
   render() {
@@ -17,7 +27,7 @@ export default class SearchBar extends React.Component {
      { this.props.repos.map(repos => 
      <li key={repos.name}> 
        <hr /> 
-       <h1 className = "float-left"> <b> Repository name: </b> {repos.name} <StarIcon callback = {this.starClicked}className="float-right" />  </h1> 
+       <h1 className = "float-left"> <b> Repository name: </b> {repos.name} <StarIcon starred = {repos.starred} callback = {() => {this.starClicked(repos)}}className="float-right" />  </h1> 
        <p className = "float-left"> <b>Description: </b> {repos.description || '-'} </p> 
        <p className = "float-left"> <b>Clone: </b> {repos.cloneUrl}  </p>
        <p className = "float-left"> <b>SSH: </b> {repos.sshUrl} </p>

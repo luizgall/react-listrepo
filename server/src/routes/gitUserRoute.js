@@ -4,7 +4,7 @@ const controller = require('../controllers/gitUserController.js')
 
 router.get('/search', controller.getRepos);
 router.put('/star', controller.putStar);
-router.delete('/delete-star', controller.deleteStar);
+router.post('/delete-star', controller.deleteStar);
 
 
 module.exports = router;

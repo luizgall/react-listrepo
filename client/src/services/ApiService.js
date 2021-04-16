@@ -14,9 +14,18 @@ const api = () => {
     return axios.put(`http://localhost:3001/star`, req, config );
   }
 
+  const deleteStar = (repoName, owner) => {
+    let req = {
+      owner, repoName
+    }
+    const config = { headers: {'Content-Type': 'application/json'} };
+    return axios.post(`http://localhost:3001/delete-star`, req, config );
+  }
+
   return {
     searchUser,
-    starRepo
+    starRepo,
+    deleteStar
   };
 }
 

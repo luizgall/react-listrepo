@@ -4,6 +4,7 @@
   float:right;
   z-index: 100;
   width: 3rem !important;
+  top: 0 !important;
 }
 .icon-star:hover {
   cursor: pointer;
