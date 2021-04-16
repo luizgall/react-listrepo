@@ -5,10 +5,6 @@ import { expect } from "chai";
 
 var jsdom = require("mocha-jsdom");
 
-global.document = jsdom({
-  url: "http://localhost:3000/"
-});
-
 import UserInfo from "../components/UserInfo/UserInfo";
 
 let rootContainer;
