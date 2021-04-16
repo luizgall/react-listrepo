@@ -2,8 +2,6 @@ import React from 'react';
 import './Star.css';
 export default class StarIcon extends React.Component {
 
-  repoName = this.props.repoName;
-
   constructor(props){
     super(props);
     this.starClick = this.starClick.bind(this);
