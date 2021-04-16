@@ -12,8 +12,8 @@ export default class UserInfo extends React.Component {
         <img src = {this.props.info.userAvatar} alt = "User avatar"/>
         <div>
           <span><b>User name:</b> {this.props.info.userName}</span>
-          <span><b>User profile: </b><a>{this.props.info.userProfile}</a> </span>
-          <span><b>Number of projects:</b> {this.props.info.repoQuantity} </span> 
+          <span><b>User profile: </b><a>{this.props.info.userProfile}</a></span>
+          <span><b>Number of projects:</b> {this.props.info.repoQuantity}</span> 
         </div>
     </section>
      
