@@ -43,9 +43,9 @@ describe("UserInfo Component Testing", () => {
     });
     const span = rootContainer.getElementsByTagName("span");
     const img = rootContainer.getElementsByTagName("img");
-    expect(span[0].innerHTML).to.equal("<b>User name:</b> " + mockInfo.info.userName);
-    expect(span[1].innerHTML).to.equal("<b>User profile: </b><a>"+ mockInfo.info.userProfile + "</a>");
-    expect(span[2].innerHTML).to.equal("<b>Number of projects:</b> "+ mockInfo.info.repoQuantity);
+    expect(span[0].innerHTML).to.include(mockInfo.info.userName);
+    expect(span[1].innerHTML).to.include(mockInfo.info.userProfile);
+    expect(span[2].innerHTML).to.include(mockInfo.info.repoQuantity);
   });
 
   it("Should hide user info", () => {  
