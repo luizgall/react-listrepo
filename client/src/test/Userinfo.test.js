@@ -3,8 +3,6 @@ import ReactDOM from "react-dom";
 import { act } from "react-dom/test-utils";
 import { expect } from "chai";
 
-var jsdom = require("mocha-jsdom");
-
 import UserInfo from "../components/UserInfo/UserInfo";
 
 let rootContainer;
