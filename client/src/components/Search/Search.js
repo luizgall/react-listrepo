@@ -33,7 +33,7 @@ export default class SearchBar extends React.Component {
     return (
     <form className="searchBar" onSubmit={this.handleSubmit}>
       <input type="text" onChange = {this.handleChange}/>
-      <button >Search</button>
+      <button type = "submit" >Search</button>
     </form>
     );
   }
